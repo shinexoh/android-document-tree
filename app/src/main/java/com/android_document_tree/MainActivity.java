@@ -64,14 +64,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-
         // 授予目录
         grantedDirectory.setOnClickListener(v -> {
             if (isDirectoryGranted()) {
                 showToastText("你已授予目录，无需再次授予");
             } else {
                 DocumentFile documentFile = DocumentFile.fromTreeUri(this, initialDirectoryUri);
-
                 if (documentFile != null) {
                     Log.d(TAG, "onCreate: " + documentFile.getUri());
                     treeUriResultLauncher.launch(documentFile.getUri());
@@ -84,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
             if (!isDirectoryGranted()) {
                 showToastText("你未授予目录，请先授予后重试");
                 return;
-            }
-            if (FileOperation.getInstance().exists(this,
+            } else if (FileOperation.getInstance().exists(this,
                     FileOperation.getInstance().getFileUri(this, initialDirectoryUri, "demo.txt"))) {
                 showToastText("文件已存在");
                 return;
@@ -95,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     this,
                     initialDirectoryUri,
                     "text/plain",
-                    "demo", "God damn man 新建的文件内容");
+                    "demo", "这是新建的文件内容");
 
             if (createFile) {
                 showToastText("添加成功");
@@ -117,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
             Uri fileUri = FileOperation.getInstance().getFileUri(this, rootDire.getUri(), "demo.txt");
             if (fileUri != null) {
-                boolean isOK = FileOperation.getInstance().writeFileContent(this, fileUri, "这是修改的文件内容");
-                showToastText(isOK ? "修改成功" : "修改失败");
+                boolean writeFileContent = FileOperation.getInstance().writeFileContent(this, fileUri, "这是经过修改的文件内容");
+                showToastText(writeFileContent ? "修改成功" : "修改失败");
             } else {
                 showToastText("文件不存在");
             }
@@ -132,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             Uri fileUri = FileOperation.getInstance().getFileUri(this, initialDirectoryUri, "demo.txt");
-            
-            if (FileOperation.getInstance().exists(this, fileUri)) {
+            if (fileUri != null) {
                 boolean d = FileOperation.getInstance().delete(this, fileUri);
                 showToastText(d ? "删除成功" : "删除失败");
             } else {
