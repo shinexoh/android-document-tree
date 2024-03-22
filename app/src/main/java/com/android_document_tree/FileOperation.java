@@ -23,6 +23,7 @@ public class FileOperation {
         return instance;
     }
 
+    // 创建文件
     public boolean createFile(Context context, Uri rootDireUri, String mimeType, String displayName, @Nullable String content) {
         try {
             DocumentFile rootDire = DocumentFile.fromTreeUri(context, rootDireUri);
